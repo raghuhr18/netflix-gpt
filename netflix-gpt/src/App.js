@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import Body from './components/Body';
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-green-500 font-bold text-4xl"> Building Netfilx-GPT</h1>
+      <Body />
     </div>
   );
 }
