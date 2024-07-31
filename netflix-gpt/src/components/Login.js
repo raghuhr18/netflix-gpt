@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import Head from './Head'
 import { checkValidData} from '../utils/validate'
+import { auth } from '../utils/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(false);
@@ -9,13 +11,50 @@ const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
 
-
     const handleSignup = () => {
         setIsSignInForm(!isSignInForm)
+        setErrMessage(" ");
     }
     const handleButtonClick = () => {
         const message = checkValidData(email.current.value, password.current.value);
         setErrMessage(message)
+
+        if(message) return;
+
+        if(!isSignInForm) {
+            // SignUp Here
+            
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                // console.log(user);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // console.log(errorCode + " "+ errorMessage)
+                setErrMessage(errorCode + " "+ errorMessage)
+                // ..
+            });
+        }else{
+            // SignIn Here
+
+                signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrMessage(errorCode +" "+ errorMessage)
+                });
+        }
+
     }
   return (
     <div>
