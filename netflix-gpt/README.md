@@ -11,3 +11,7 @@
 11. created Redux store with userSlice
 12. implemented signout feature
 13. update profile api
+14. Not-loggedin - Redirect to Login page
+15. Loggedin - Redirect to Browse page
+16. unsubscribed to the onAuthStateChaned callback
+17. added all the urls to constants file

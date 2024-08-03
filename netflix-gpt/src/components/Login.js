@@ -3,13 +3,12 @@ import Head from './Head'
 import { checkValidData} from '../utils/validate'
 import { auth } from '../utils/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 import { addUser } from '../utils/userSlice';
 import { useDispatch } from 'react-redux';
+import { BG_IMG, USER_AVATAR } from '../utils/constants';
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [isSignInForm, setIsSignInForm] = useState(false);
     const [errMessage, setErrMessage] = useState("");
     
@@ -37,13 +36,12 @@ const Login = () => {
 
                 updateProfile(user, {
                     displayName: name.current.value, 
-                    photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQchogSCM3cUcWFskNVI9Lu3BnaJcMfPcvLnKysba861y0MQg5-xpzY7lgUlA&s"
+                    photoURL: USER_AVATAR
                   }).then(() => {
                     const { uid, email, displayName, photoURL } = auth.currentUser;
                     dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
                     // Profile updated!
                     // ...
-                    navigate("/browse")
                   }).catch((error) => {
                     // An error occurred
                     // ...
@@ -67,7 +65,6 @@ const Login = () => {
                     // Signed in 
                     const user = userCredential.user;
                     // console.log(user);
-                    navigate("/browse")
                     // ...
                 })
                 .catch((error) => {
@@ -82,7 +79,7 @@ const Login = () => {
     <div>
         <Head />
         <div className='absolute'>
-            <img className="bg-opacity-70" src="https://assets.nflxext.com/ffe/siteui/vlv3/655a9668-b002-4262-8afb-cf71e45d1956/5ff265b6-3037-44b2-b071-e81750b21783/IN-en-20240715-POP_SIGNUP_TWO_WEEKS-perspective_WEB_c6d6616f-4478-4ac2-bdac-f54b444771dd_large.jpg"  
+            <img className="bg-opacity-70" src={BG_IMG}  
             alt="bg-img"/>
         </div>
         <form className='bg-black p-12 absolute w-1/4 mx-auto left-0 right-0 my-36 text-white bg-opacity-80' 
